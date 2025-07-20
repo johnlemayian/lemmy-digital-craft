@@ -61,9 +61,23 @@ const Contact = () => {
               Get In Touch
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
             Ready to transform your business? Let's discuss your project and bring your vision to life
           </p>
+          
+          {/* CEO Photo */}
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <img
+                src="/lovable-uploads/98568c0a-d6ef-47a2-af18-f0fc859e890d.png"
+                alt="Lemmar - CEO & Founder"
+                className="w-32 h-32 rounded-full object-cover border-4 border-tech-blue shadow-glow"
+              />
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gradient-hero text-white px-4 py-1 rounded-full text-sm font-medium">
+                CEO & Founder
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
