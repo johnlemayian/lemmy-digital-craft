@@ -19,13 +19,31 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your inquiry. We'll get back to you soon.",
-    });
-    setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+    
+    try {
+      const { supabase } = await import('@/lib/supabase');
+      
+      const { data, error } = await supabase.functions.invoke('contact-form', {
+        body: formData,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for your inquiry. We'll get back to you soon.",
+      });
+      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const contactInfo = [
@@ -132,7 +150,15 @@ const Contact = () => {
                 <p className="mb-4 opacity-90">
                   Chat with our team for real-time support and quick answers
                 </p>
-                <Button variant="secondary" className="bg-white text-background hover:bg-white/90">
+                <Button 
+                  variant="secondary" 
+                  className="bg-white text-background hover:bg-white/90"
+                  onClick={() => {
+                    // This will be handled by the LiveChat component
+                    const chatButton = document.querySelector('[data-chat-trigger]') as HTMLElement;
+                    if (chatButton) chatButton.click();
+                  }}
+                >
                   Start Live Chat
                 </Button>
               </CardContent>
