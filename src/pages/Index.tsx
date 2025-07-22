@@ -7,6 +7,7 @@ import Testimonials from '@/components/Testimonials';
 import Blog from '@/components/Blog';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import LiveChat from '@/components/LiveChat';
 
 const Index = () => {
   return (
@@ -20,6 +21,7 @@ const Index = () => {
       <Blog />
       <Contact />
       <Footer />
+      <LiveChat />
     </div>
   );
 };

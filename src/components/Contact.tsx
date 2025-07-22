@@ -3,9 +3,11 @@ import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { sendContactEmail } from '@/lib/emailService';
 
 const Contact = () => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,13 +21,35 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your inquiry. We'll get back to you soon.",
-    });
-    setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+    setIsLoading(true);
+
+    try {
+      const success = await sendContactEmail(formData);
+      
+      if (success) {
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for your inquiry. We'll get back to you soon.",
+        });
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to send message. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
+
+    setIsLoading(false);
   };
 
   const contactInfo = [
@@ -225,10 +249,11 @@ const Contact = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-gradient-hero hover:shadow-glow transition-all duration-300 transform hover:scale-105"
+                  disabled={isLoading}
+                  className="w-full bg-gradient-hero hover:shadow-glow transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   size="lg"
                 >
-                  Send Message
+                  {isLoading ? 'Sending...' : 'Send Message'}
                   <Send className="ml-2 h-5 w-5" />
                 </Button>
               </form>
