@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, ArrowUp } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, ArrowUp, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Footer = () => {
@@ -38,6 +38,7 @@ const Footer = () => {
     { icon: Twitter, href: '#', label: 'Twitter' },
     { icon: Instagram, href: '#', label: 'Instagram' },
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { icon: MessageCircle, href: 'https://wa.me/254796677808', label: 'WhatsApp' },
   ];
 
   return (
